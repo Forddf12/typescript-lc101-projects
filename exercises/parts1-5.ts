@@ -1,6 +1,6 @@
 // URL for the instructions: 
 // https://education.launchcode.org/intro-to-professional-web-dev/chapters/typescript/exercises.html 
-
+import { SpaceLocation } from './SpaceLocation';
 
 // Part 1: Declare (5) Variables With Type
 let spacecraftName: string = "Determination";
@@ -19,23 +19,46 @@ console.log(`"${spacecraftName} would take ${daysToMars} to get to Mars."`)
 
 
 // Part 3: Create a Function ("getDaysToLocation")
-
+function getDaysToLocation(kilometersAway: number): number {
+    let miles: number = kilometersAway * milesPerKilometer;
+    let hours: number = miles / speedMph;
+    let days: number = hours / 24;
+    return days;
+}
 
 
 // Move your output statement from part 2 here. Update the template literal to call
 // the function and print the outputs for a Mars trip and a moon trip.
-
+console.log(`"${spacecraftName} would take ${getDaysToLocation(kilometersToTheMoon)} to get to Moon."`)
 
 
 
 // Part 4: Create a Spacecraft Class
+class Spacecraft {
+    milesPerKilometer: number = 0.621;
+    name: string;
+    speedMph:number;
 
-
-
-
+    constructor(name: string, speedMph: number) {
+        this.name = name;
+        this.speedMph = speedMph;
+    }
+    getDaysToLocation(kilometersAway: number): number {
+        let miles: number = kilometersAway * this.milesPerKilometer;
+        let hours: number = miles / this.speedMph;
+        let days: number = hours / 24;
+        return days;
+    }
+    printDaysToLocation(location: SpaceLocation) {
+        console.log(`${this.name} would take ${this.getDaysToLocation(location.kilometersAway)} days to get to ${location.name}.`);
+     }
+}
 // Create an instance of the class here:
+let spaceship: Spacecraft = new Spacecraft("Determination", 17500);
+console.log(`It will take ${spaceship.name} ${spaceship.getDaysToLocation(kilometersToMars)} days to get to Mars.`);
 
-
+spaceship.printDaysToLocation(new SpaceLocation('Mars', kilometersToMars));
+spaceship.printDaysToLocation(new SpaceLocation('the Moon', kilometersToTheMoon));
 
 // Move your output statements from part 3 here. Update the template literals use the
 // instance of the class.
